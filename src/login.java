@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.lang.String;
+import javax.swing.JPasswordField;
 
 public class login {
     private JPanel JPanel;
@@ -22,12 +24,19 @@ public class login {
                     Connection conn = DriverManager.getConnection(DB_RUL, USER, PASS);
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(QUERY);
-                    if(rs.getString("nombre")=usuario && contrasenia=rs.getString("password")){
+                    if((rs.getString("nombre")=usuario) && (contrasenia=rs.getString("password"))){
                         login=true;
                     }
+                    if(login==true){
+                        JFrame  userFrame= new JFrame("usuario");
+                        userFrame.setContentPane(userFrame.JPanel1);
+                        userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        userFrame.pack();
+                        userFrame.setVisible(true);
+                    }
                 }
-                catch (SQLException e){
-                    throw new RuntimeException(e);
+                catch (SQLException a){
+                    throw new RuntimeException(a);
                 }
             }
         });
