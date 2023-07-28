@@ -10,10 +10,10 @@ public class login {
     private JButton ingresarButton;
     private JTextField usuario;
     private JPasswordField contrasenia;
-    static final String DB_RUL = "jdbc:mysql://localhost/poo";
+    static final String DB_URL = "jdbc:mysql://localhost/poo";
     static final String USER = "root";
     static final String PASS = "root_bas3";
-    static final String QUERY = "Select * From Estudiantes";
+    String QUERY = ("Select * From Estudiantes where id="+usuario);
     private String usu[];
     private String contra[];
     private int conta=0;
@@ -23,45 +23,35 @@ public class login {
         ingresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Hola");
                 try(
-                    Connection conn = DriverManager.getConnection(DB_RUL, USER, PASS);
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(QUERY);)
-                {
-                    boolean login=false;
-                    if((rs.getString("nombre").equals(usuario.getText()) && rs.getString("password").equals(new String(contrasenia.getPassword())))){
-                        login=true;
-                    }
-                    if(login==true){
-                        JFrame  userFrame= new JFrame("usuario");
-                        //userFrame.setContentPane(userFrame.JPanel1);
-                        userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        userFrame.pack();
-                        userFrame.setVisible(true);
-                    }
+                        Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                        Statement stmt = conn.createStatement();
+                        ResultSet rs = stmt.executeQuery(QUERY);)
+                {while (rs.next()){
+                    System.out.println("id: "+rs.getInt("id"));
+                    System.out.println("nombre: "+rs.getString("nombre"));
                 }
-                catch (SQLException a){
+                }catch (SQLException a) {
                     throw new RuntimeException(a);
                 }
+                    System.out.println("ingreso a la base de datos");
             }
         });
     }
     private void informacion(){
         try(
-                Connection conn = DriverManager.getConnection(DB_RUL, USER, PASS);
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(QUERY);)
         {while (rs.next()){
-            usu[conta]=rs.getString("nombre");
-            contra[conta]=rs.getString("password");
-            conta++;
-            if (usu[conta].equals(usuario.getText())){
-                encontrado=conta;
-            }
+            System.out.println("id: "+rs.getInt("id"));
+            System.out.println("nombre: "+rs.getString("nombre"));
         }
-        }catch (SQLException a){
-            throw new RuntimeException(a);
+        }catch (SQLException f){
+            throw new RuntimeException(f);
         }
+        System.out.println("ingreso a la base de datos");
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("login");
