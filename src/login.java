@@ -14,22 +14,27 @@ public class login {
     static final String USER = "root";
     static final String PASS = "root_bas3";
     static final String QUERY = "Select * From Estudiantes";
+    private String usu[];
+    private String contra[];
+    private int conta=0;
+    private int encontrado;
 
     public login() {
         ingresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    boolean login=false;
+                try(
                     Connection conn = DriverManager.getConnection(DB_RUL, USER, PASS);
                     Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(QUERY);
-                    if((rs.getString("nombre")=usuario) && (contrasenia=rs.getString("password"))){
+                    ResultSet rs = stmt.executeQuery(QUERY);)
+                {
+                    boolean login=false;
+                    if((rs.getString("nombre").equals(usuario.getText()) && rs.getString("password").equals(new String(contrasenia.getPassword())))){
                         login=true;
                     }
                     if(login==true){
                         JFrame  userFrame= new JFrame("usuario");
-                        userFrame.setContentPane(userFrame.JPanel1);
+                        //userFrame.setContentPane(userFrame.JPanel1);
                         userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         userFrame.pack();
                         userFrame.setVisible(true);
@@ -41,7 +46,23 @@ public class login {
             }
         });
     }
-
+    private void informacion(){
+        try(
+                Connection conn = DriverManager.getConnection(DB_RUL, USER, PASS);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(QUERY);)
+        {while (rs.next()){
+            usu[conta]=rs.getString("nombre");
+            contra[conta]=rs.getString("password");
+            conta++;
+            if (usu[conta].equals(usuario.getText())){
+                encontrado=conta;
+            }
+        }
+        }catch (SQLException a){
+            throw new RuntimeException(a);
+        }
+    }
     public static void main(String[] args) {
         JFrame frame = new JFrame("login");
         frame.setContentPane(new login().JPanel);
