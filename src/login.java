@@ -10,20 +10,21 @@ public class login {
     private JButton ingresarButton;
     private JTextField usuario;
     private JPasswordField contrasenia;
+    //1.	Definir la url de la conexión
     static final String DB_URL = "jdbc:mysql://localhost/poo";
+    //2.	Definir el usuario con el que nos vamos a conectar
     static final String USER = "root";
+    //3.	Definir la contraseña del usuario
     static final String PASS = "root_bas3";
-    String QUERY = ("Select * From Estudiantes where id="+usuario);
-    private String usu[];
-    private String contra[];
-    private int conta=0;
-    private int encontrado;
+    //4.	Colocar la sentencia del QUERY
+    static final String QUERY = "Select * From Estudiantes";
 
     public login() {
         ingresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Hola");
+
                 try(
                         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                         Statement stmt = conn.createStatement();
@@ -40,7 +41,7 @@ public class login {
         });
     }
     private void informacion(){
-        try(
+        /*try(
                 Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(QUERY);)
@@ -51,13 +52,15 @@ public class login {
         }catch (SQLException f){
             throw new RuntimeException(f);
         }
-        System.out.println("ingreso a la base de datos");
+        System.out.println("ingreso a la base de datos");*/
     }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("login");
         frame.setContentPane(new login().JPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
     }
 }
