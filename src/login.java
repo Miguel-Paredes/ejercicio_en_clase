@@ -17,14 +17,14 @@ public class login {
     //3.	Definir la contraseña del usuario
     static final String PASS = "root_bas3";
     //4.	Colocar la sentencia del QUERY
-    static final String QUERY = "Select * From Estudiantes";
+    static final String usu="Miguel Paredes";
+    static final String QUERY = "SELECT * FROM Estudiantes WHERE nombre='"+usu+"'";
 
     public login() {
         ingresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Hola");
-
                 try(
                         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                         Statement stmt = conn.createStatement();
@@ -40,20 +40,6 @@ public class login {
             }
         });
     }
-    private void informacion(){
-        /*try(
-                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(QUERY);)
-        {while (rs.next()){
-            System.out.println("id: "+rs.getInt("id"));
-            System.out.println("nombre: "+rs.getString("nombre"));
-        }
-        }catch (SQLException f){
-            throw new RuntimeException(f);
-        }
-        System.out.println("ingreso a la base de datos");*/
-    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("login");
@@ -61,6 +47,5 @@ public class login {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
     }
 }
